@@ -6,9 +6,9 @@ library(lubridate)
 options(dplyr.summarise.inform = F)
 
 setwd('~/projects/nfl/')
+source("functions.R")
 
 stadiums <- read_csv('stadiums.csv')
-
 reg_pbp <- 
   fetch_pbp_data(2009, 2019)
 
@@ -53,41 +53,6 @@ pass_df <-
     interception,
     two_point_attempt
     ) %>% 
-  left_join(stadiums, by = c('home_team' = 'team', 'season' = 'season'))
-
-run_df <- 
-  reg_pbp %>% 
-  filter(season == 2019) %>% 
-  filter(rush_attempt == 1) %>% 
-  mutate(
-    game_date = date(game_date),
-    game_id = as.numeric(game_id),
-    play_id = as.numeric(play_id),
-    drive = as.numeric(drive),
-    yards_gained = as.numeric(yards_gained),
-    rush_attempt = as.numeric(rush_attempt),
-    two_point_attempt = as.numeric(two_point_attempt),
-    rush_touchdown = as.numeric(rush_touchdown)
-  ) %>% 
-  select(
-    season,
-    game_date,
-    game_id,
-    play_id,
-    home_team,
-    posteam,
-    posteam_type,
-    drive,
-    rusher_player_name,
-    yards_gained,
-    game_half,
-    penalty,
-    play_type,
-    rush_attempt,
-    touchdown,
-    rush_touchdown,
-    two_point_attempt
-  ) %>% 
   left_join(stadiums, by = c('home_team' = 'team', 'season' = 'season'))
 
 output <- 
@@ -137,16 +102,5 @@ qb_stats <-
   ) %>% 
   select(
     -c(a,b,c,d)
-  ) %>% 
-  arrange(desc(yards))
-
-run_output <- 
-  run_df %>% 
-  group_by(rusher_player_name) %>% 
-  summarise(
-    games = length(unique(game_id)),
-    attempts = sum(rush_attempt) - sum(two_point_attempt),
-    yards = sum(yards_gained),
-    tds = sum(rush_touchdown)
   ) %>% 
   arrange(desc(yards))
