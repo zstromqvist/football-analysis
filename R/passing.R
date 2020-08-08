@@ -74,7 +74,7 @@ output <-
     yards_per_game = round(yards / games),
     tds_per_game = round(tds / games, 2),
     td_int_ratio = round(tds / ints, 2),
-    qbr = calc_qbr(compl_perc, yards, attempts, tds, ints)
+    qbr = calc_qbr(completions, attempts, yards, tds, ints)
   ) %>% 
   arrange(desc(qbr))
 
@@ -98,7 +98,7 @@ qb_stats <-
     yards_per_game = round(yards / games),
     tds_per_game = round(tds / games, 2),
     td_int_ratio = round(tds / ints, 2),
-    qbr = calc_qbr(compl_perc, yards, attempts, tds, ints)
+    qbr = calc_qbr(completions, attempts, yards, tds, ints)
   ) %>% 
   select(
     -c(a,b,c,d)

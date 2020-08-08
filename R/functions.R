@@ -23,12 +23,12 @@ fetch_pbp_data <- function(start_year = 2009, end_year = 2009, path_var = "data/
   return(reg_pbp)
 }
 
-calc_qbr <- function(completion_percentage, yards, attempts, tds, ints){
+calc_qbr <- function(completions, attempts, yards, tds, ints){
   
   a = case_when(
-    ((completion_percentage) - .3) * 5 > 2.375 ~ 2.375,
-    ((completion_percentage) - .3) * 5 < 0 ~ 0,
-    TRUE ~ ((completion_percentage) - .3) * 5
+    ((completions / attempts) - .3) * 5 > 2.375 ~ 2.375,
+    ((completions / attempts) - .3) * 5 < 0 ~ 0,
+    TRUE ~ ((completions / attempts) - .3) * 5
   )
   
   b = case_when(
