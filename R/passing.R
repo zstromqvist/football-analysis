@@ -5,12 +5,12 @@ library(lubridate)
 
 options(dplyr.summarise.inform = F)
 
-setwd('~/projects/nfl/')
-source("functions.R")
+setwd('~/projects/nfl')
+source("R/functions.R")
 
 stadiums <- read_csv('stadiums.csv')
 reg_pbp <- 
-  fetch_pbp_data(2009, 2019)
+  fetch_pbp_data(2019, 2019)
 
 pass_df <- 
   reg_pbp %>% 
